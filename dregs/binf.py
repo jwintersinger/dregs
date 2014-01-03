@@ -1,3 +1,9 @@
+import textwrap
+
+def write_fasta_seq(fasta_fd, header, seq):
+  fasta_fd.write('>%s\n' % header)
+  fasta_fd.write('\n'.join(textwrap.wrap(seq, 80)) + '\n')
+
 def parse_fasta(fd):
   on_first_sequence = True
 
