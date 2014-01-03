@@ -1,0 +1,13 @@
+#!/usr/bin/env python2
+
+import sys
+from dregs import binf
+
+def main():
+  for header, seq in binf.parse_fasta(sys.stdin):
+    for pattern in sys.argv[1:]:
+      if pattern in header:
+        binf.write_fasta_seq(sys.stdout, header, seq)
+
+if __name__ == '__main__':
+  main()
