@@ -41,3 +41,32 @@ def reverse_complement(seq):
   for c in seq[::-1]:
     rev_comp += complements[c]
   return rev_comp
+
+def calculate_n50(sizes, cutoff=50):
+  """
+  Abstract: Returns the N50 value of the passed list of numbers.
+  Usage: N50(numlist)
+
+  Based on the definition from this SEQanswers post
+  http://seqanswers.com/forums/showpost.php?p=7496&postcount=4
+  (modified Broad Institute's definition
+  https://www.broad.harvard.edu/crd/wiki/index.php/N50)
+
+  See SEQanswers threads for details:
+  http://seqanswers.com/forums/showthread.php?t=2857
+  http://seqanswers.com/forums/showthread.php?t=2332
+  """
+  sizes.sort(reverse = True)
+  total_size = sum(sizes)
+  threshold = (float(cutoff)/100) * total_size
+  size_sum = 0
+
+  for size in sizes:
+    size_sum += size
+    if size_sum >= threshold:
+      return size
+
+def test_calculate_n50():
+  'Taken from http://en.wikipedia.org/w/index.php?title=N50_statistic&oldid=550470473'
+  test_sizes =[2, 2, 2, 3, 3, 4, 8, 8]
+  assert calculate_n50(test_sizes) == 8
