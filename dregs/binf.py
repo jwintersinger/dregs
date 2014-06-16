@@ -2,6 +2,7 @@ import textwrap
 
 def write_fasta_seq(fasta_fd, header, seq):
   fasta_fd.write('>%s\n' % header)
+  # Note that for long sequences, this is ridiculously slow. I should rewrite it.
   fasta_fd.write('\n'.join(textwrap.wrap(seq, 80)) + '\n')
 
 def parse_fasta(fd):
