@@ -1,9 +1,15 @@
-import textwrap
-
 def write_fasta_seq(fasta_fd, header, seq):
   fasta_fd.write('>%s\n' % header)
   # Note that for long sequences, this is ridiculously slow. I should rewrite it.
-  fasta_fd.write('\n'.join(textwrap.wrap(seq, 80)) + '\n')
+
+  # Don't use textwrap module included in standard library, as it's far too
+  # slow for large FASTA files.
+  n = len(seq)
+  line_len = 80
+  i = 0
+  while i < n:
+    fasta_fd.write(seq[i:(i + line_len)] + '\n')
+    i += line_len
 
 def parse_fasta(fd):
   on_first_sequence = True
